@@ -1,0 +1,70 @@
+plugins {
+    id 'java'
+    id 'jacoco'
+    id 'org.springframework.boot' version '2.2.1.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'application'
+    id 'io.qameta.allure' version '2.8.1'
+}
+
+allure{
+    version = "2.13.9"
+}
+jacoco {
+    toolVersion = "0.8.5"
+}
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.enabled(true)
+        html.enabled(true)
+    }
+}
+
+mainClassName = 'example.App'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+group 'org.example'
+version '1.0'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+ext {
+    cucumberVersion = "6.6.0"
+    restAssuredVersion = "4.2.0"
+    allureCucumberVersion = "2.13.9"
+}
+
+dependencies {
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation "io.qameta.allure:allure-cucumber6-jvm:$allureCucumberVersion"
+
+    testImplementation 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    testImplementation "io.cucumber:cucumber-java:$cucumberVersion"
+    testImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
+    testImplementation "io.cucumber:cucumber-spring:$cucumberVersion"
+    testImplementation "io.cucumber:cucumber-junit-platform-engine:$cucumberVersion"
+
+    testImplementation "io.rest-assured:rest-assured:$restAssuredVersion"
+    testImplementation "io.rest-assured:json-path:$restAssuredVersion"
+    testImplementation "io.rest-assured:xml-path:$restAssuredVersion"
+
+    compileOnly 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
+    runtimeOnly("com.h2database:h2:1.4.200")
+}
+
+test {
+    useJUnitPlatform()
+}
